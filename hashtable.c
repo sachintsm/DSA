@@ -1,87 +1,78 @@
 #include<stdio.h>
-#include<string.h>
-#include <stdlib.h>
-#include <stdbool.h>
+#include<stdlib.h>
+#include<conio.h>
 
 #define size 10
-int listsize = 0;
 
 struct node{
     int key;
-    struct node *next;
 };
 
-struct node *hasharray[size];
-struct node* dummyItem;
+struct node *htable[size];
+struct node *temp;
 
-int hashfunction(int key){
+int function(int key){
     int index = key%size;
     return index;
 }
 
 int insert(int key){
-    struct node *item = (struct node*) malloc(sizeof(struct node));
-    item->key = key;
+    int index = function(key);
+    struct node* item = (struct node*) malloc(sizeof(struct node));
+    item -> key = key;
 
-    int hashindex = hashfunction(key);
-
-    while(hasharray[hashindex] != NULL && hasharray[hashindex]->key != -1){
-        hashindex++;
-        hashindex = hashindex%size;
+    while(htable[index] != NULL && htable[index] -> key != -1){
+        index++;
     }
-    hasharray[hashindex] = item;
+    htable[index] = item;
 }
 
-struct node *search(int key) { 
-   int hashIndex = hashfunction(key);  
-   while(hasharray[hashIndex] != NULL) {
-      if(hasharray[hashIndex]->key == key){
-          printf("%d is found in index %d\n",key,hashIndex);
-         return hasharray[hashIndex]; 
-      }
-      hashIndex++;
-      hashIndex %= size;
-   }        
-   return NULL;        
-}
-struct node* delete(struct node* item) {
-   int key = item->key;
-   int hashIndex = hashfunction(key);
-   while(hasharray[hashIndex] != NULL) {	
-      if(hasharray[hashIndex]->key == key) {
-         struct node* temp = hasharray[hashIndex]; 
-         hasharray[hashIndex] = dummyItem; 
-         return temp;
-      }
-      hashIndex++;
-      hashIndex %= size;
-   }      
-   return NULL;        
-}
-
-
-
-void print(){
-    int i = 0;
-    for(i=0; i<size; i++){
-        if(hasharray[i] == NULL){
-            printf("index %d : value NULL\n" ,i);
+struct node *search(int key){
+    int index = function(key);
+    while(htable[index] != NULL){
+        if(htable[index]->key = key){
+            printf("%d found in index %d\n",key,index);
+            return htable[index];
         }
         else{
-            printf("index %d : value %d\n", i,hasharray[i]->key);
+            index++;
+        }
+    }
+}
+void dlt(int key){
+    int index = function(key);
+    struct node* item = (struct node*) malloc(sizeof(struct node));
+    item->key = key;
+    while(htable[index] != NULL){
+        if(htable[index] -> key == key){
+            htable[index] = NULL;
+        }
+        else{
+            index++;
+        }
+    }
+}
+
+void print(){
+    int i;
+    for(i=0; i<size ; i++){
+        if(htable[i] == NULL){
+            printf("index %d value : ~~\n",i);
+        }
+        else{
+            printf("index %d value : %d\n",i, htable[i]->key);
         }
     }
 }
 
 int main(){
-    dummyItem = (struct node*) malloc(sizeof(struct node));
-    dummyItem->key = -1; 
-    printf("Hello sachin\n");
-
-    insert(5);
+    insert(10);
+    insert(20);
     insert(55);
-    insert(65);
     print();
-    search(65);
-    //delete(65);
+    search(55);
+    dlt(55);
+    print();
+    insert(55);
+    print();
 }
