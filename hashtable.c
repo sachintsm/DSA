@@ -9,7 +9,6 @@ struct node{
 };
 
 struct node *htable[size];
-struct node *temp;
 
 int function(int key){
     int index = key%size;
@@ -23,6 +22,7 @@ int insert(int key){
 
     while(htable[index] != NULL && htable[index] -> key != -1){
         index++;
+        index = index%size;
     }
     htable[index] = item;
 }
@@ -36,6 +36,7 @@ struct node *search(int key){
         }
         else{
             index++;
+             index = index%size;
         }
     }
 }
@@ -49,6 +50,7 @@ void dlt(int key){
         }
         else{
             index++;
+             index = index%size;
         }
     }
 }

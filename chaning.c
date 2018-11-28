@@ -39,7 +39,7 @@ int insert(int key){
         }
         curr -> next = item;
     }
-}
+}/*
 void dlt(int key){
     int index = hashfunction(key);
     struct node *item = (struct node*) malloc(sizeof(struct node));
@@ -75,7 +75,7 @@ int search(int key){
         }
     }
 
-}
+}*/
 void print(){
     int i = 0;
 	for (i = 0; i < size ; i++){
@@ -103,7 +103,7 @@ int main(){
     insert(50);
     insert(5);
     print();
-    search(55);
+    //search(55);
    // dlt(50);
   //  print();
     return 0;
